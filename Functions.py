@@ -32,3 +32,13 @@ def RecurringTransactions(data):
     Recurring = Recurring.reset_index(drop=True)
     Recurring.index = range(1, len(Recurring)+1)
     return Recurring
+
+def process_uploaded_data():
+    current_directory = os.getcwd()
+    UPLOAD_DIRECTORY = current_directory + "/app_uploaded_files"
+    ccDatRaw = GetData(UPLOAD_DIRECTORY)
+    ccDat = CleanTDdata(ccDatRaw)
+    ReTrans = RecurringTransactions(ccDat)
+    DailyCounts = ccDat['weekday'].value_counts()
+
+    return ccDat, ReTrans, DailyCounts
