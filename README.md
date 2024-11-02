@@ -1,4 +1,4 @@
-# Persoanl Finance App
+# Personal Finance App
 
 A masterfully crafted personal finance application.
 
