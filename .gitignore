@@ -1,0 +1,4 @@
+.gitattributes
+__pycache__/
+.DS_Store
+app_uploaded_files/
