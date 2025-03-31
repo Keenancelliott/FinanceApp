@@ -22,12 +22,26 @@ def download(path):
     """Serve a file from the upload directory."""
     return send_from_directory(UPLOAD_DIRECTORY, path, as_attachment=True)
 
+dark_theme = {
+    "main-background": "#000000",
+    "header-text": "#ff7575",
+    "sub-text": "#ffd175",
+}
+
 app.layout = html.Div([
-    html.Div(children='VanSinE Finance', style={'textAlign': 'center', 'color': 'black', 'fontSize': 40}),
-    html.Br(),
+    html.Div("VanSinE Finance", id="title-section"),
+    #html.Div(children='VanSinE Finance', 
+    #style={
+    #    'textAlign': 'center',
+    #    'color': 'white', 
+    #    'fontSize': 40, 
+    #    'borderWidth': '0px',
+    #    'backgroundColor':'#444444', 
+    #    'margin': '0px'}),
+    html.Div(style={'height': '10px', 'backgroundColor': '#444444'}),
     dcc.Upload(
         id='upload-data',
-        children=html.Div(['Drag and Drop or ', html.A('Select Files')]),
+        children=html.Div(['Click here to drag and drop or ', html.A('select files')]),
         style={
             'width': '100%',
             'height': '60px',
@@ -35,14 +49,16 @@ app.layout = html.Div([
             'borderWidth': '1px',
             'borderStyle': 'dashed',
             'borderRadius': '5px',
+            'borderColor': '#444444',
             'textAlign': 'center',
-            'margin': '10px'
+            'color': 'white',
+            'margin': '0px',
+            'backgroundColor':'#444444'
         },
         multiple=True
     ),
     html.Div(id='output-data-upload'),
-    html.Br(),
-    
+    html.Div(style={'height': '20px', 'backgroundColor': '#444444'}),
     # Placeholder graphs and tables before data is uploaded
     html.Div(id='graphs-and-tables')
 ])
@@ -50,16 +66,15 @@ app.layout = html.Div([
 # Function to generate empty figures
 def generate_empty_graphs_and_tables():
     return html.Div([
-        html.Div(children='Card Balance Over Time', style={'textAlign': 'left', 'color': 'black', 'fontSize': 30}),
-        dcc.Graph(figure=px.line(pd.DataFrame(), x=None, y=None)),
-        html.Div(children='Credit Card Transactions', style={'textAlign': 'left', 'color': 'black', 'fontSize': 30}),
-        dash_table.DataTable(data=[], page_size=10),
-        html.Div(children='Recurring Monthly Transactions', style={'textAlign': 'left', 'color': 'black', 'fontSize': 30}),
+        html.Div(children='Card Balance Over Time', style={'textAlign': 'left', 'color': 'white', 'fontSize': 30, 'backgroundColor':'#444444'}),
+        dcc.Graph(figure=px.line(pd.DataFrame(), x=None, y=None, template='plotly_dark')),
+        html.Div(children='Recurring Monthly Transactions', style={'textAlign': 'left', 'color': 'white', 'fontSize': 30, 'backgroundColor':'#444444'}),
         dash_table.DataTable(data=[]),
-        html.Br(),
-        html.Br(),
-        html.Div(children='Number of Transactions by Weekday', style={'textAlign': 'left', 'color': 'black', 'fontSize': 30}),
-        dcc.Graph(figure=px.bar(pd.DataFrame(), x=None, y=None))
+        html.Div(style={'height': '40px', 'backgroundColor': '#444444'}),
+        html.Div(children='Number of Transactions by Weekday', style={'textAlign': 'left', 'color': 'white', 'fontSize': 30, 'backgroundColor':'#444444'}),
+        dcc.Graph(figure=px.bar(pd.DataFrame(), x=None, y=None, template='plotly_dark')),
+        html.Div(children='All Card Transactions', style={'textAlign': 'left', 'color': 'white', 'fontSize': 30, 'backgroundColor':'#444444'}),
+        dash_table.DataTable(data=[], page_size=10)
     ])
 
 # Initial rendering (empty state)
@@ -86,16 +101,22 @@ def update_graphs(list_of_contents, list_of_names):
 
     # Return populated graphs and tables
     return html.Div([
-        html.Div(children='Card Balance Over Time', style={'textAlign': 'left', 'color': 'black', 'fontSize': 30}),
-        dcc.Graph(figure=px.line(ccDat, x='Date', y='TotalBal', labels={"TotalBal": "Balance"})),
-        html.Div(children='Credit Card Transactions', style={'textAlign': 'left', 'color': 'black', 'fontSize': 30}),
-        dash_table.DataTable(data=ccDat.to_dict('records'), page_size=10),
-        html.Div(children='Recurring Monthly Transactions', style={'textAlign': 'left', 'color': 'black', 'fontSize': 30}),
-        dash_table.DataTable(data=ReTrans.to_dict('records')),
-        html.Br(),
-        html.Br(),
-        html.Div(children='Number of Transactions by Weekday', style={'textAlign': 'left', 'color': 'black', 'fontSize': 30}),
-        dcc.Graph(figure=px.bar(DailyCounts, x=DailyCounts.index, y=DailyCounts, labels={"y": "Number of Transactions"}))
+        html.Div(children='Card Balance Over Time', style={'textAlign': 'left', 'color': 'white', 'fontSize': 30, 'backgroundColor':'#444444'}),
+        dcc.Graph(figure=px.line(ccDat, x='Date', y='TotalBal', labels={"TotalBal": "Balance"}, template='plotly_dark')),
+        html.Div(style={'height': '40px', 'backgroundColor': '#444444'}),
+        html.Div(children='Recurring Monthly Transactions', style={'textAlign': 'left', 'color': 'white', 'fontSize': 30, 'backgroundColor':'#444444'}),
+        dash_table.DataTable(data=ReTrans.to_dict('records'), 
+            style_filter={'backgroundColor': '#444444'}, 
+            style_header={'backgroundColor': '#444444'},
+            style_cell={'backgroundColor': '#444444', 'color': 'white'}),
+        html.Div(style={'height': '40px', 'backgroundColor': '#444444'}),
+        html.Div(children='Number of Transactions by Weekday', style={'textAlign': 'left', 'color': 'white', 'fontSize': 30, 'backgroundColor':'#444444'}),
+        dcc.Graph(figure=px.bar(DailyCounts, x=DailyCounts.index, y=DailyCounts, labels={"y": "Number of Transactions"}, template='plotly_dark')),
+        html.Div(children='All Card Transactions', style={'textAlign': 'left', 'color': 'white', 'fontSize': 30, 'backgroundColor':'#444444'}),
+        dash_table.DataTable(data=ccDat.to_dict('records'), page_size=10, 
+            style_filter={'backgroundColor': '#444444'}, 
+            style_header={'backgroundColor': '#444444'},
+            style_cell={'backgroundColor': '#444444', 'color': 'white'})
     ])
 
 # Run the app
