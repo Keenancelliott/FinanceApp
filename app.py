@@ -97,7 +97,7 @@ def update_graphs(list_of_contents, list_of_names):
             f.write(decoded)
     
     # Assume process_uploaded_data returns processed DataFrames (ccDat, ReTrans, DailyCounts)
-    ccDat, ReTrans, DailyCounts = process_uploaded_data()
+    ccDat, ReTrans, DailyCounts, TransData = process_uploaded_data()
 
     # Return populated graphs and tables
     return html.Div([
@@ -113,10 +113,30 @@ def update_graphs(list_of_contents, list_of_names):
         html.Div(children='Number of Transactions by Weekday', style={'textAlign': 'left', 'color': 'white', 'fontSize': 30, 'backgroundColor':'#444444'}),
         dcc.Graph(figure=px.bar(DailyCounts, x=DailyCounts.index, y=DailyCounts, labels={"y": "Number of Transactions"}, template='plotly_dark')),
         html.Div(children='All Card Transactions', style={'textAlign': 'left', 'color': 'white', 'fontSize': 30, 'backgroundColor':'#444444'}),
-        dash_table.DataTable(data=ccDat.to_dict('records'), page_size=10, 
+        dash_table.DataTable(id='table-dropdown', data=TransData.to_dict('records'), page_size=10, 
+                            columns=[{'id': 'Date', 'name': 'Date'},
+                                    {'id': 'Transaction', 'name': 'Transaction'},
+                                    {'id': 'AmountPos', 'name': 'AmountPos'},
+                                    {'id': 'AmountNeg', 'name': 'AmountNeg'},
+                                    {'id': 'TotalBal', 'name': 'TotalBal'},
+                                    {'id': 'TransactionType', 'name': 'Transaction Type', 'presentation': 'dropdown'}],
+            editable=True,
+            dropdown={
+        'TransactionType': {
+            'options': [
+                {'label': 'Groceries', 'value': 'Groceries'},
+                {'label': 'Gas', 'value': 'Gas'},
+                {'label': 'Dining Out', 'value': 'Dining Out'},
+                {'label': 'Car', 'value': 'Car'},
+                {'label': 'Travel', 'value': 'Travel'},
+                {'label': 'Household', 'value': 'Household'},
+                {'label': 'Shopping', 'value': 'Shopping'},
+                {'label': 'Entertainment', 'value': 'Entertainment'},
+                {'label': 'Misc.', 'value': 'Misc.'}]}},
             style_filter={'backgroundColor': '#444444'}, 
             style_header={'backgroundColor': '#444444'},
-            style_cell={'backgroundColor': '#444444', 'color': 'white'})
+            style_cell={'backgroundColor': '#444444', 'color': 'white'}, 
+            style_data_conditional=[{'if': {'column_id': 'TransactionType'},'color': 'white'}]) #need to figure out colour of dropdown                         
     ])
 
 # Run the app

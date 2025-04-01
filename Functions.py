@@ -40,5 +40,7 @@ def process_uploaded_data():
     ccDat = CleanTDdata(ccDatRaw)
     ReTrans = RecurringTransactions(ccDat)
     DailyCounts = ccDat['weekday'].value_counts()
+    TransData = ccDat[["Date", "Transaction","AmountPos", "AmountNeg", "TotalBal"]]
+    #TransData['TransactionType'] = np.nan
 
-    return ccDat, ReTrans, DailyCounts
+    return ccDat, ReTrans, DailyCounts, TransData
