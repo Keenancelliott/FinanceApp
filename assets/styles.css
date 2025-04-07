@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #444444 !important;
+    background-color: #444444 !important; /* Grey background */
 }
 
 /* Ensure Dash content fills the entire page */
@@ -17,7 +17,7 @@ body {
 
 /* Ensure the text inside the upload area is styled properly */
 #upload-data div {
-    color: white !important;
+    color: white !important; /* White text */
     text-align: center;
 }
 
@@ -27,6 +27,60 @@ body {
     padding: 10px;
     background-color: #444444;
     text-align: center;
-    color: white;
+    color: white;  /* White text */
     font-size: 40px;
+}
+
+/* Fix DataTable dropdown text color */
+.dash-dropdown .Select-control,
+.dash-dropdown .Select-menu-outer,
+.dash-dropdown .Select-option,
+.dash-dropdown .Select-placeholder,
+.dash-dropdown .Select-value,
+.dash-dropdown .Select-value-label,
+.dash-dropdown .Select-input {
+    background-color: #444444 !important; /* Dark background */
+    color: white !important;  /* White text */
+    border-color: #444444 !important; /* Dark border */
+}
+
+/* Add hover effect for dropdown options */
+.dash-dropdown .Select-option:hover {
+    background-color: #666666 !important; /* Slightly lighter hover effect */
+    color: white !important;  /* White text */
+}
+
+/* Style the DataTable cells */
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner input:not([type=radio]):not([type=checkbox]){
+    color: white !important; /* White text for inputs */
+    background-color: #444444 !important; /* Dark background for inputs */
+}
+
+/* Style the dropdown options */
+.dash-spreadsheet-container .dash-spreadsheet-inner .Select-menu-outer {
+    background-color: #444444 !important; /* Dark background */
+    color: white !important;  /* White text */
+}
+
+/* Style the dropdown items (options) */
+.dash-spreadsheet-container .dash-spreadsheet-inner .Select-option {
+    background-color: #444444 !important; /* Dark background */
+    color: white !important;  /* White text */
+}
+
+/* Style the dropdown selected value */
+.dash-spreadsheet-container .dash-spreadsheet-inner .Select-value {
+    background-color: #444444 !important; /* Dark background */
+    color: white !important;  /* White text */
+}
+
+/* additional custom theme control */
+.dash-spreadsheet-container .dash-spreadsheet-inner table {
+    border-collapse: collapse;
+    font-family: monospace;
+    --accent: #ff5733 !important;  /* Example: Accent color */
+    --text-color: yellowgreen !important; /* Text color */
+    --hover: #333333 !important;  /* Hover effect */
+    --faded-text-header: yellowgreen !important;
+    --selected-background: yellowgreen !important;
 }

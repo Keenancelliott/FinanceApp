@@ -29,8 +29,8 @@ dark_theme = {
 }
 
 app.layout = html.Div([
-    html.Div("VanSinE Finance", id="title-section"),
-    #html.Div(children='VanSinE Finance', 
+    html.Div("Personal Finance App", id="title-section"),
+    #html.Div(children='Personal Finance App', 
     #style={
     #    'textAlign': 'center',
     #    'color': 'white', 
@@ -113,15 +113,20 @@ def update_graphs(list_of_contents, list_of_names):
         html.Div(children='Number of Transactions by Weekday', style={'textAlign': 'left', 'color': 'white', 'fontSize': 30, 'backgroundColor':'#444444'}),
         dcc.Graph(figure=px.bar(DailyCounts, x=DailyCounts.index, y=DailyCounts, labels={"y": "Number of Transactions"}, template='plotly_dark')),
         html.Div(children='All Card Transactions', style={'textAlign': 'left', 'color': 'white', 'fontSize': 30, 'backgroundColor':'#444444'}),
-        dash_table.DataTable(id='table-dropdown', data=TransData.to_dict('records'), page_size=10, 
-                            columns=[{'id': 'Date', 'name': 'Date'},
-                                    {'id': 'Transaction', 'name': 'Transaction'},
-                                    {'id': 'AmountPos', 'name': 'AmountPos'},
-                                    {'id': 'AmountNeg', 'name': 'AmountNeg'},
-                                    {'id': 'TotalBal', 'name': 'TotalBal'},
-                                    {'id': 'TransactionType', 'name': 'Transaction Type', 'presentation': 'dropdown'}],
-            editable=True,
-            dropdown={
+        dash_table.DataTable(
+    id='table-dropdown',
+    data=TransData.to_dict('records'),
+    page_size=10,
+    columns=[
+        {'id': 'Date', 'name': 'Date'},
+        {'id': 'Transaction', 'name': 'Transaction'},
+        {'id': 'AmountPos', 'name': 'AmountPos'},
+        {'id': 'AmountNeg', 'name': 'AmountNeg'},
+        {'id': 'TotalBal', 'name': 'TotalBal'},
+        {'id': 'TransactionType', 'name': 'Transaction Type', 'presentation': 'dropdown'}
+    ],
+    editable=True,
+    dropdown={
         'TransactionType': {
             'options': [
                 {'label': 'Groceries', 'value': 'Groceries'},
@@ -132,12 +137,24 @@ def update_graphs(list_of_contents, list_of_names):
                 {'label': 'Household', 'value': 'Household'},
                 {'label': 'Shopping', 'value': 'Shopping'},
                 {'label': 'Entertainment', 'value': 'Entertainment'},
-                {'label': 'Misc.', 'value': 'Misc.'}]}},
-            style_filter={'backgroundColor': '#444444'}, 
-            style_header={'backgroundColor': '#444444'},
-            style_cell={'backgroundColor': '#444444', 'color': 'white'}, 
-            style_data_conditional=[{'if': {'column_id': 'TransactionType'},'color': 'white'}]) #need to figure out colour of dropdown                         
-    ])
+                {'label': 'Payment', 'value': 'Payment'},
+                {'label': 'Misc.', 'value': 'Misc.'}
+            ]
+        }
+    },
+    style_filter={'backgroundColor': '#444444'},
+    style_header={'backgroundColor': '#444444'},
+    style_cell={
+        'backgroundColor': '#444444',
+        'color': 'white'
+    },
+    style_data_conditional=[
+        {
+            'if': {'column_id': 'TransactionType'},
+            'color': 'white'
+        }
+    ],
+)])
 
 # Run the app
 if __name__ == '__main__':
